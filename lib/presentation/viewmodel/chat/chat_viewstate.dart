@@ -1,33 +1,39 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_learn/data/model/chat_model.dart';
 
-class ChatViewState extends Equatable {
-  final bool isLoading;
-  final String? errorMessage;
-  final String? data;
-  final List<ChatModel>? chatList;
+sealed class ChatState extends Equatable {
+  const ChatState();
 
-  const ChatViewState({
-    this.isLoading = false,
-    this.errorMessage,
-    this.data,
-    this.chatList,
-  });
+  @override
+  List<Object?> get props => [];
+}
 
-  ChatViewState copyWith({
-    bool? isLoading,
-    String? errorMessage,
-    String? data,
+class ChatInitial extends ChatState {}
+
+class ChatLoading extends ChatState {}
+
+class ChatLoaded extends ChatState {
+  final List<ChatModel> chatList;
+
+  const ChatLoaded({required this.chatList});
+
+  @override
+  List<Object?> get props => [chatList];
+
+  ChatLoaded copyWith({
     List<ChatModel>? chatList,
   }) {
-    return ChatViewState(
-      isLoading: isLoading ?? this.isLoading,
-      errorMessage: errorMessage ?? this.errorMessage,
-      data: data ?? this.data,
+    return ChatLoaded(
       chatList: chatList ?? this.chatList,
     );
   }
+}
+
+class ChatError extends ChatState {
+  final String errorMessage;
+
+  const ChatError(this.errorMessage);
 
   @override
-  List<Object?> get props => [isLoading, errorMessage, data,chatList];
+  List<Object?> get props => [errorMessage];
 }

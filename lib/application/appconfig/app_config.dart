@@ -91,27 +91,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
- const MethodChannel _iconChannel = MethodChannel('com.example.flutter_learn/icon');
-
-Future<void> setAndroidIcon(String alias) async {
-  try {
-    if (Platform.isAndroid) {
-      await _iconChannel.invokeMethod('setIcon', {'alias': alias});
-    }
-  } on PlatformException catch (e) {
-    print('Error changing icon: ${e.message}');
-  }
-}
-
-Future<void> checkDateAndSetIcon() async {
-  final now = DateTime.now();
-
-  if (now.month == 12 && now.day == 25) {
-    await setAndroidIcon('christmas');
-  } else if (now.month == 1 && now.day == 1) {
-    await setAndroidIcon('newyear');
-  } else {
-    await setAndroidIcon('');
-  }
-}

@@ -6,7 +6,7 @@ import 'package:flutter_learn/infrastructure/services/firebase_service.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  checkDateAndSetIcon();
+  // checkDateAndSetIcon();
   FirebaseInitializer.init();
   /// Option 1: Initialize + run together
   AppConfig.initializeAndRunApp(

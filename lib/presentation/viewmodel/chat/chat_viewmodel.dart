@@ -1,14 +1,16 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_learn/application/router/app_router.gr.dart';
 import 'package:flutter_learn/data/model/chat_model.dart';
 import 'package:flutter_learn/infrastructure/services/navigation_service.dart';
 import 'package:flutter_learn/presentation/viewmodel/chat/chat_viewstate.dart';
-import 'package:flutter_learn/presentation/viewmodel/view_model.dart';
 
-class ChatViewModel extends ViewModel<ChatViewState> {
-  ChatViewModel() : super(const ChatViewState());
+class ChatCubit extends Cubit<ChatState> {
+  ChatCubit() : super(ChatInitial());
 
   void init() {
-    final List<ChatModel> chatList = [
+    emit(ChatLoading());
+
+    final chatList = [
       ChatModel(
         id: 1,
         name: 'Aravinth Raja',
@@ -65,36 +67,17 @@ class ChatViewModel extends ViewModel<ChatViewState> {
       ),
     ];
 
-    updateState(state.copyWith(chatList: chatList));
-  }
-
-  void setLoading(bool value) {
-    updateState(state.copyWith(isLoading: value));
-  }
-
-  void setData(String value) {
-    updateState(state.copyWith(
-      data: value,
-      isLoading: false,
-      errorMessage: null,
-    ));
-  }
-
-  void setError(String message) {
-    updateState(state.copyWith(
-      errorMessage: message,
-      isLoading: false,
-    ));
-  }
-
-  void reset() {
-    updateState(const ChatViewState());
+    emit(ChatLoaded(chatList: chatList));
   }
 
   void marksRead({int? id}) {
     if (id == null) return;
 
-    final List<ChatModel> localChatList = (state.chatList ?? []).map((chat) {
+    if (state is! ChatLoaded) return;
+
+    final currentState = state as ChatLoaded;
+
+    final updatedList = currentState.chatList.map((chat) {
       if (chat.id == id) {
         return chat.copyWith(
           isSawMessage: true,
@@ -104,12 +87,15 @@ class ChatViewModel extends ViewModel<ChatViewState> {
       return chat;
     }).toList();
 
-    updateState(state.copyWith(chatList: localChatList));
-    navigateToChatRoom();
+    emit(ChatLoaded(chatList: updatedList));
+    // navigateToChatRoom();
   }
 
-  void navigateToChatRoom(){
+  void navigateToChatRoom() {
     NavigationService.push(ChatRoomRoute());
   }
 
+  void emitError(String msg) {
+    emit(ChatError(msg));
+  }
 }

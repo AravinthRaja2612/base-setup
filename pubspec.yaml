@@ -34,12 +34,12 @@ dependencies:
   equatable: ^2.0.7
   sms_sender: ^1.0.5
   permission_handler: ^11.3.0
-  telephony: ^0.2.0
   firebase_auth: ^6.1.2
   firebase_core: ^4.2.1
   google_sign_in: ^7.2.0
   cloud_firestore: ^6.1.0
   retrofit: ^4.2.2
+  flutter_bloc: ^9.1.1
 
 
 
@@ -50,6 +50,7 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   auto_route_generator: ^10.2.4
   lean_builder: ^0.1.2
+  build_runner: ^2.10.4
 
 flutter:
 

@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen>
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
   String displayText = '';
-  final String fullText = 'Welcome...🙏'; // your premium text
+  final String fullText = 'Welcome...'; // your premium text
   int textIndex = 0;
 
   @override
